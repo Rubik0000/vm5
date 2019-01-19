@@ -6,26 +6,63 @@ import sle.vector.Vector;
 import sle.vector.VectorDefaultImp;
 import sle.vectorfactories.VectorFactory;
 
+import java.util.Random;
+
+/**
+ * Менеджер тестов
+ */
 public class TestManager {
+    /**
+     * Генератор случайных чисел
+     */
+    private Random random;
+
+    /**
+     * Фабрика векторов
+     */
     private VectorFactory vectorFactory;
+
+    /**
+     * Фабрика квадратных матриц
+     */
     private SquareMatrixFactory squareMatrixFactory;
 
     public TestManager(VectorFactory vecFac, SquareMatrixFactory sqmf) {
+        random = new Random();
         vectorFactory = vecFac;
         squareMatrixFactory = sqmf;
     }
 
+    /**
+     * Возвращает погрешность между векторами
+     * @param a 1-й вектор
+     * @param b 2-й вектор
+     * @return максимальную разницу компонент
+     * @throws Exception
+     */
     private float getError(Vector a, Vector b) throws Exception {
         return a.subtract(b).getNorm();
     }
 
-    public TestResult makeTest(int systemSize, float min, float max, int countExp) {
+    /**
+     * Проводит одно тестирование
+     * @param systemPowSize порядок размера системы
+     * @param valuesSizePow порядок диапазона значений
+     * @param countExp кол-во опытов
+     * @return результат тестрирования
+     */
+    public TestResult makeTest(int systemPowSize, int valuesSizePow, int countExp) {
         try {
+            int minSize = (int) Math.pow(10, systemPowSize);
+            int maxSize = (int) (Math.pow(10, systemPowSize + 1) - 1);
+            int systemSize = minSize + random.nextInt(maxSize - minSize);
             float[] one = new float[systemSize];
             for (int i = 0; i < systemSize; ++i) {
                 one[i] = 1;
             }
             Vector oneVec = vectorFactory.createVector(one);
+            float max = (float) Math.pow(10, valuesSizePow);
+            float min = -max;
             float avgError = 0;
             float avgAccuracyRating = 0;
             for (int i = 0; i < countExp; ++i) {
@@ -42,7 +79,7 @@ public class TestManager {
             }
             avgAccuracyRating /= countExp;
             avgError /= countExp;
-            return new TestResult(systemSize, min, max, avgError, avgAccuracyRating, countExp);
+            return new TestResult(systemPowSize, valuesSizePow, avgError, avgAccuracyRating, countExp);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

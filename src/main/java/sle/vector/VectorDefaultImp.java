@@ -2,9 +2,20 @@ package sle.vector;
 
 import java.io.FileWriter;
 
+/**
+ * Реализация вектора по-умолчанию
+ */
 public class VectorDefaultImp implements Vector {
+    /**
+     * Компоненты вектора
+     */
     private float[] _vector;
 
+    /**
+     * Конструктор
+     * @param values компоненты вектора
+     * @throws Exception если компоненты не переданы
+     */
     public VectorDefaultImp(float ...values) throws Exception {
         if (values == null) {
             throw new Exception("Передано null значение");

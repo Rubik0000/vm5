@@ -7,7 +7,10 @@ import java.io.FileReader;
 import java.util.Random;
 import java.util.Scanner;
 
-public class VectorFactoryDefaulImp implements VectorFactory {
+/**
+ * Реализация фабрики векторов по-умолчанию
+ */
+public class VectorFactoryDefaultImp implements VectorFactory {
     private Random random = new Random();
 
     @Override
@@ -20,13 +23,12 @@ public class VectorFactoryDefaulImp implements VectorFactory {
         if (len < 1) {
             throw new Exception("Некорректная длина вектора");
         }
-        try (Scanner scanner = new Scanner(System.in)) {
-            float[] vec = new float[len];
-            for (int i = 0; i < len; ++i) {
-                vec[i] = scanner.nextFloat();
-            }
-            return new VectorDefaultImp(vec);
+        Scanner scanner = new Scanner(System.in);
+        float[] vec = new float[len];
+        for (int i = 0; i < len; ++i) {
+            vec[i] = scanner.nextFloat();
         }
+        return new VectorDefaultImp(vec);
     }
 
     @Override

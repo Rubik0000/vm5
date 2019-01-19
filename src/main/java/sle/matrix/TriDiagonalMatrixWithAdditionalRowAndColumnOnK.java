@@ -5,9 +5,26 @@ import sle.vector.VectorDefaultImp;
 
 import java.io.FileWriter;
 
+/**
+ * Трехдиагональная матрица с вектором p на k-м столбце и вектором q на k-й строке
+ */
 public class TriDiagonalMatrixWithAdditionalRowAndColumnOnK extends AbstractTriDiagonalMatrixWithTwoAdditionalRowsOrColumns {
+    /**
+     * Позиция векторов p и q
+     */
     private int _kPos;
 
+    /**
+     *
+     * @param a вектор под главное диагональю
+     * @param b вектор главной диагонали
+     * @param c вектор над главной диагональю
+     * @param p вертикальный вектор
+     * @param q горизонтальный вектор
+     * @param k позиция векторов (с 0)
+     * @throws Exception если размеры векторов не соответвую друг другу,
+     * если k меньше 0 или больше размера системы
+     */
     public TriDiagonalMatrixWithAdditionalRowAndColumnOnK(
             Vector a, Vector b, Vector c, Vector p, Vector q, int k) throws Exception {
         super(a, b, c, p, q);
@@ -15,12 +32,48 @@ public class TriDiagonalMatrixWithAdditionalRowAndColumnOnK extends AbstractTriD
             throw new Exception("Некорректная позиция векторов");
         }
         _kPos = k;
+        if (p.get(k) != b.get(k) || q.get(k) != b.get(k)) {
+            throw new Exception("k-е компоненты векторов b, p, q должны быть равны");
+        }
+        if (k > 0 && q.get(k - 1) != a.get(k - 1)) {
+            throw new Exception("k-й компонент вектора a должен быть равен k-1-у компоненту вектора q");
+        }
+        if (k < getSize() - 1 && p.get(k + 1) != a.get(k)) {
+            throw new Exception("k+1-й компонент вектора a должен быть равен k+1-у компоненту вектора p");
+        }
+        if (k > 0 && p.get(k - 1) != c.get(k - 1)) {
+            throw new Exception("k-1-й компонент вектора c должен быть равен k-1-у компоненту вектора p");
+        }
+        if (k < getSize() - 1 && q.get(k + 1) != c.get(k)) {
+            throw new Exception("k-й компонент вектора c должен быть равен k+1-у компоненту вектора q");
+        }
     }
 
+    /**
+     * Формирует матрицу из векторов
+     * @param a вектор под главное диагональю
+     * @param b вектор главной диагонали
+     * @param c вектор над главной диагональю
+     * @param p вертикальный вектор
+     * @param q горизонтальный вектор
+     * @param k позиция векторов (с 0)
+     * @return марицу, составленную из векторов
+     */
     static private float[][] formMatrix(Vector a, Vector b, Vector c, Vector p, Vector q, int k) {
         return formMatrix(a, b, c, p, q, k, null);
     }
 
+    /**
+     * Формирует расширенную матрицу из векторов
+     * @param a вектор под главное диагональю
+     * @param b вектор главной диагонали
+     * @param c вектор над главной диагональю
+     * @param p вертикальный вектор
+     * @param q горизонтальный вектор
+     * @param k позиция векторов (с 0)
+     * @param f вектор правой части
+     * @return марицу, составленную из векторов
+     */
     static private float[][] formMatrix(Vector a, Vector b, Vector c, Vector p, Vector q, int k, Vector f) {
         try {
             int size = b.length();
@@ -205,6 +258,22 @@ public class TriDiagonalMatrixWithAdditionalRowAndColumnOnK extends AbstractTriD
         for (float[] str : matr) {
             for (float el : str) {
                 System.out.printf("%8.2f ", el);
+            }
+            System.out.println();
+        }
+    }
+
+    @Override
+    public void printToConsole(Vector f) {
+        float[][] matr = formMatrix(getA(), getB(), getC(), getP(), getQ(), _kPos, f);
+        for (float[] str : matr) {
+            for (int i = 0; i < getSize() + 1; ++i) {
+                if (i < getSize()) {
+                    System.out.printf("%8.2f ", str[i]);
+                }
+                else {
+                    System.out.printf("|%8.2f ", str[i]);
+                }
             }
             System.out.println();
         }

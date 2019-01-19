@@ -8,6 +8,9 @@ import sle.vectorfactories.VectorFactory;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * Фабрика трехдиагональных матриц с вектором p на k-м столбце и вектором q на k-й строке
+ */
 public class TriDiagonalMatrixWithAdditionalRowAndColumnOnKFactory implements SquareMatrixFactory {
     private Random random;
 
@@ -23,20 +26,18 @@ public class TriDiagonalMatrixWithAdditionalRowAndColumnOnKFactory implements Sq
         if (size < 3) {
             throw new Exception("Некорректная длина матрицы");
         }
-        System.out.println("Введите вектор a, начиная с a2, a = (a1, a2, ..., an), a1 = 0 ");
+        System.out.println("Введите вектор a, начиная с a1, a = (a0, a1, ..., an-1), a0 = 0 ");
         Vector a = _vectorFactory.readFromConsole(size - 1);
-        System.out.println("Введите вектор b, начиная b = (b1, b2, ..., bn)");
+        System.out.println("Введите вектор b, начиная b = (b0, b1, ..., bn-1)");
         Vector b = _vectorFactory.readFromConsole(size);
-        System.out.println("Введите вектор a, до cn, c = (c1, c2, ..., cn), cn = 0 ");
+        System.out.println("Введите вектор a, до cn, c = (c0, c1, ..., cn-1), cn-1 = 0 ");
         Vector c = _vectorFactory.readFromConsole(size - 1);
         System.out.println("Введите позицию векторов p и q, отсчет начинается с 0");
-        int k = 0;
-        try (Scanner scanner = new Scanner(System.in)){
-            k = scanner.nextInt();
-        }
-        System.out.println("Введите вектор p, начиная p = (p1, p2, ..., pn)");
+        Scanner scanner = new Scanner(System.in);
+        int k = scanner.nextInt();
+        System.out.println("Введите вектор p, начиная p = (p0, p1, ..., pn-1)");
         Vector p = _vectorFactory.readFromConsole(size);
-        System.out.println("Введите вектор q, начиная q = (q1, q2, ..., qn)");
+        System.out.println("Введите вектор q, начиная q = (q0, q1, ..., qn-1)");
         Vector q = _vectorFactory.readFromConsole(size);
         return new TriDiagonalMatrixWithAdditionalRowAndColumnOnK(a, b, c, p, q, k);
     }
