@@ -12,10 +12,20 @@ import java.util.Scanner;
  * Фабрика трехдиагональных матриц с вектором p на k-м столбце и вектором q на k-й строке
  */
 public class TriDiagonalMatrixWithAdditionalRowAndColumnOnKFactory implements SquareMatrixFactory {
+    /**
+     * Генератор случайных чисел
+     */
     private Random random;
 
+    /**
+     * Фабрика векторов
+     */
     private VectorFactory _vectorFactory;
 
+    /**
+     * Конструктор
+     * @param factory фабрика векторов
+     */
     public TriDiagonalMatrixWithAdditionalRowAndColumnOnKFactory(VectorFactory factory) {
         random = new Random();
         _vectorFactory = factory;
@@ -23,8 +33,8 @@ public class TriDiagonalMatrixWithAdditionalRowAndColumnOnKFactory implements Sq
 
     @Override
     public SquareMatrix readFromConsole(int size) throws Exception {
-        if (size < 3) {
-            throw new Exception("Некорректная длина матрицы");
+        if (size < 2) {
+            throw new Exception("Размер матрицы должен быть не менее 2");
         }
         System.out.println("Введите вектор a, начиная с a1, a = (a0, a1, ..., an-1), a0 = 0 ");
         Vector a = _vectorFactory.readFromConsole(size - 1);
@@ -49,6 +59,12 @@ public class TriDiagonalMatrixWithAdditionalRowAndColumnOnKFactory implements Sq
 
     @Override
     public SquareMatrix getRandomMatrix(int size, float min, float max) throws Exception {
+        if (size < 2) {
+            throw new Exception("Размер матрицы должен быть не менее 2");
+        }
+        if (min > max) {
+            throw new Exception("Переданное минимальное значение больше максимального");
+        }
         int k = random.nextInt(size);
         Vector a = _vectorFactory.getRandomVector(size - 1, min, max);
         Vector b = _vectorFactory.getRandomVector(size, min, max, true);

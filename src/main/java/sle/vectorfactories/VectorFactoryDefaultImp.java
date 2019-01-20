@@ -11,6 +11,9 @@ import java.util.Scanner;
  * Реализация фабрики векторов по-умолчанию
  */
 public class VectorFactoryDefaultImp implements VectorFactory {
+    /**
+     * Генератор случайных чисел
+     */
     private Random random = new Random();
 
     @Override
@@ -21,7 +24,7 @@ public class VectorFactoryDefaultImp implements VectorFactory {
     @Override
     public Vector readFromConsole(int len) throws Exception {
         if (len < 1) {
-            throw new Exception("Некорректная длина вектора");
+            throw new Exception("Длина вектора должна быть не меньше 1");
         }
         Scanner scanner = new Scanner(System.in);
         float[] vec = new float[len];
@@ -58,7 +61,13 @@ public class VectorFactoryDefaultImp implements VectorFactory {
     }
 
     @Override
-    public Vector getRandomVector(int len, float min, float max, boolean noZeros) throws Exception{
+    public Vector getRandomVector(int len, float min, float max, boolean noZeros) throws Exception {
+        if (len < 1) {
+            throw new Exception("Длина вектора должна быть не меньше 1");
+        }
+        if (min > max) {
+            throw new Exception("Переданное минимальное значение больше максимального");
+        }
         float[] vec = new float[len];
         for (int i = 0; i < len; ++i) {
             vec[i] = min + random.nextFloat() * (max - min);

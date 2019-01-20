@@ -44,7 +44,7 @@ public interface Vector {
 
     /**
      * Возвращает норму вектора как максимальную по модулю компоненту
-     * @return
+     * @return максимальную по модулю компоненту
      */
     float getNorm();
 
@@ -56,7 +56,7 @@ public interface Vector {
     /**
      * Записывает вектор в файл
      * @param fileName имя файла
-     * @throws Exception
+     * @throws Exception если имя файла пустое или файл не найден
      */
     void writeToFile(String fileName) throws Exception;
 }

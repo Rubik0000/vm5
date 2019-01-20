@@ -8,7 +8,7 @@ import sle.vector.Vector;
 public interface SquareMatrix {
     /**
      * Возвращает размер матрицы
-     * @return
+     * @return размер квадратной матрицы
      */
     int getSize();
 
@@ -18,7 +18,7 @@ public interface SquareMatrix {
 
     /**
      * Умножает матрицу на вектор
-     * @param vec
+     * @param vec вектор
      * @return результут умножения (вектор)
      * @throws Exception если длина вектора не равна размеру матрицы
      */

@@ -10,7 +10,7 @@ public interface SquareMatrixFactory {
      * Считывает матрицу с консоли
      * @param size размер матрицы
      * @return считанную матрицу
-     * @throws Exception
+     * @throws Exception если размер матрицы менее 2
      */
     SquareMatrix readFromConsole(int size) throws Exception;
 
@@ -28,7 +28,7 @@ public interface SquareMatrixFactory {
      * @param min минимальное значение элемента
      * @param max максимальное значение элемента
      * @return сгенерированную матрицу
-     * @throws Exception
+     * @throws Exception если размер матрицы менее 2 или минимальное значение больше максимального
      */
     SquareMatrix getRandomMatrix(int size, float min, float max) throws Exception;
 }
