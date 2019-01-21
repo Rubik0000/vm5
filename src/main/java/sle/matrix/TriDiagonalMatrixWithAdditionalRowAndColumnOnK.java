@@ -106,12 +106,32 @@ public class TriDiagonalMatrixWithAdditionalRowAndColumnOnK extends AbstractTriD
 
     @Override
     public SquareMatrix add(SquareMatrix matr) throws Exception {
-        return null;
+        TriDiagonalMatrixWithAdditionalRowAndColumnOnK matrix =
+                (TriDiagonalMatrixWithAdditionalRowAndColumnOnK) matr;
+        if (_kPos != matrix._kPos) {
+            throw new Exception("Позиции векторов p и q в марицах не равны");
+        }
+        Vector a = getA().add(matrix.getA());
+        Vector b = getB().add(matrix.getB());
+        Vector c = getC().add(matrix.getC());
+        Vector p = getP().add(matrix.getP());
+        Vector q = getQ().add(matrix.getQ());
+        return new TriDiagonalMatrixWithAdditionalRowAndColumnOnK(a, b, c, p, q, _kPos);
     }
 
     @Override
     public SquareMatrix subtract(SquareMatrix matr) throws Exception {
-        return null;
+        TriDiagonalMatrixWithAdditionalRowAndColumnOnK matrix =
+                (TriDiagonalMatrixWithAdditionalRowAndColumnOnK) matr;
+        if (_kPos != matrix._kPos) {
+            throw new Exception("Позиции векторов p и q в марицах не равны");
+        }
+        Vector a = getA().subtract(matrix.getA());
+        Vector b = getB().subtract(matrix.getB());
+        Vector c = getC().subtract(matrix.getC());
+        Vector p = getP().subtract(matrix.getP());
+        Vector q = getQ().subtract(matrix.getQ());
+        return new TriDiagonalMatrixWithAdditionalRowAndColumnOnK(a, b, c, p, q, _kPos);
     }
 
     @Override

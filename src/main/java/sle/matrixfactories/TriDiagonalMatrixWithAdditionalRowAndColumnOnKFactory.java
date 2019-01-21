@@ -5,6 +5,7 @@ import sle.matrix.TriDiagonalMatrixWithAdditionalRowAndColumnOnK;
 import sle.vector.Vector;
 import sle.vectorfactories.VectorFactory;
 
+import java.io.FileReader;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -54,7 +55,25 @@ public class TriDiagonalMatrixWithAdditionalRowAndColumnOnKFactory implements Sq
 
     @Override
     public SquareMatrix readFromFile(String fileName) throws Exception {
-        return null;
+        if (fileName == null || fileName.equals("")) {
+            throw new Exception("Имя файла не может быть пустым");
+        }
+        try (Scanner scanner = new Scanner(new FileReader(fileName))) {
+            if (!scanner.hasNextInt()) {
+                throw new Exception("Неверный формат файла");
+            }
+            int size = scanner.nextInt();
+            float[][] matrix = new float[size][size];
+            for (int i = 0; i < size; ++i) {
+                for (int j = 0; j < size; ++j) {
+                    if (!scanner.hasNextFloat()) {
+                        throw new Exception("Невозможно считать " + i + "-й " + j + "-й компонент матрицы");
+                    }
+                    matrix[i][j] = scanner.nextFloat();
+                }
+            }
+            return null;
+        }
     }
 
     @Override

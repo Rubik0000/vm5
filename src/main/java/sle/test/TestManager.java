@@ -3,7 +3,6 @@ package sle.test;
 import sle.matrix.SquareMatrix;
 import sle.matrixfactories.SquareMatrixFactory;
 import sle.vector.Vector;
-import sle.vector.VectorDefaultImp;
 import sle.vectorfactories.VectorFactory;
 
 import java.util.Random;
@@ -27,6 +26,11 @@ public class TestManager {
      */
     private SquareMatrixFactory squareMatrixFactory;
 
+    /**
+     * Конструктор
+     * @param vecFac фабрика векторов
+     * @param sqmf фабрика матриц
+     */
     public TestManager(VectorFactory vecFac, SquareMatrixFactory sqmf) {
         random = new Random();
         vectorFactory = vecFac;
@@ -37,11 +41,29 @@ public class TestManager {
      * Возвращает погрешность между векторами
      * @param a 1-й вектор
      * @param b 2-й вектор
+     * @param q некоторое неотрицательное число, выбираемое с учетом особенностей
+     * решаемой системы уравнений
      * @return максимальную разницу компонент
-     * @throws Exception
+     * @throws Exception если векторы разной длины или q меньше 0
      */
-    private float getError(Vector a, Vector b) throws Exception {
-        return a.subtract(b).getNorm();
+    private float getError(Vector a, Vector b, float q) throws Exception {
+        if (a.length() != b.length()) {
+            throw new Exception("Ошибка в вычислении погрешности, переданы векторы разной длины");
+        }
+        if (q < 0) {
+            throw new Exception("Число q должно быть неотрицательным");
+        }
+        int len = a.length();
+        float[] errorVec = new float[len];
+        for (int i = 0; i < len; ++i) {
+            if (Math.abs(b.get(i)) > q) {
+                errorVec[i] = Math.abs((a.get(i) - b.get(i)) / b.get(i));
+            }
+            else {
+                errorVec[i] = Math.abs(a.get(i) - b.get(i));
+            }
+        }
+        return vectorFactory.createVector(errorVec).getNorm();
     }
 
     /**
@@ -74,7 +96,8 @@ public class TestManager {
                 Vector result = matrix.resolveLinearEquationSystem(f);
                 Vector _result = matrix.resolveLinearEquationSystem(_f);
 
-                avgError += getError(result, x);
+                float q = Float.MAX_VALUE;
+                avgError += getError(result, x, q);
                 avgAccuracyRating += _result.subtract(oneVec).getNorm();
             }
             avgAccuracyRating /= countExp;

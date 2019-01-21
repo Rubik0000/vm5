@@ -18,7 +18,7 @@ public interface SquareMatrixFactory {
      * Считывает матрицу из файла
      * @param fileName имя файла
      * @return считанную матрицу
-     * @throws Exception
+     * @throws Exception если имя файла пустое или произошла ошибка при чтении
      */
     SquareMatrix readFromFile(String fileName) throws Exception;
 

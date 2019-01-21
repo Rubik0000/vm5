@@ -46,7 +46,7 @@ public interface SquareMatrix {
     /**
      * Записывает матицу в файл
      * @param fileName имя файла
-     * @throws Exception
+     * @throws Exception если имя файла пустое или произошла ошибка при записи
      */
     void writeToFile(String fileName) throws Exception;
 }
